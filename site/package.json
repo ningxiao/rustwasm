@@ -10,7 +10,8 @@
         "build": "webpack",
         "start": "webpack-dev-server",
         "wasm:build": "cd .. && wasm-pack build --out-name rustWasmTest --target web",
-        "wasm:test": "cd .. && wasm-pack test --firefox"
+        "wasm:test": "cd .. && wasm-pack test --firefox",
+        "wasm:publish": "cd .. && wasm-pack publish"
     },
     "devDependencies": {
         "webpack": "^5.72.1",

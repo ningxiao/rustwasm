@@ -1,8 +1,8 @@
 <div align="center">
 
-  <h1><code>wasm-pack-template</code></h1>
+  <h1><code>rust-wasm-webpack-demo</code></h1>
 
-  <strong>A template for kick starting a Rust and WebAssembly project using <a href="https://github.com/rustwasm/wasm-pack">wasm-pack</a>.</strong>
+  <strong>Rust转为WebAssembly（<a href="https://github.com/rustwasm/wasm-pack">wasm-pack</a>）结合Webpack构建</strong>
 
   <p>
     <a href="https://travis-ci.org/rustwasm/wasm-pack-template"><img src="https://img.shields.io/travis/rustwasm/wasm-pack-template.svg?style=flat-square" alt="Build Status" /></a>
@@ -19,51 +19,35 @@
 
 ## About
 
-[**📚 Read this template tutorial! 📚**][template-docs]
+[**📚 目录结构! 📚**]
 
-This template is designed for compiling Rust libraries into WebAssembly and
-publishing the resulting package to NPM.
+![Screenshot](./src/assets/WX20220513-155204%402x.png)
 
-Be sure to check out [other `wasm-pack` tutorials online][tutorials] for other
-templates and usages of `wasm-pack`.
-
-[tutorials]: https://rustwasm.github.io/docs/wasm-pack/tutorials/index.html
-[template-docs]: https://rustwasm.github.io/docs/wasm-pack/tutorials/npm-browser-packages/index.html
-
-## 🚴 Usage
-
-### 🐑 Use `cargo generate` to Clone this Template
-
-[Learn more about `cargo generate` here.](https://github.com/ashleygwilliams/cargo-generate)
+### 🚴 Start
 
 ```
-cargo generate --git https://github.com/rustwasm/wasm-pack-template.git --name my-project
-cd my-project
+cd site
+npm run start
 ```
+![Screenshot](./src/assets/WX20220513-160140@2x.png)
 
-### 🛠️ Build with `wasm-pack build`
-
-```
-wasm-pack build
-```
-
-### 🔬 Test in Headless Browsers with `wasm-pack test`
+### 🛠️ Build with `npm run wasm:build`
 
 ```
-wasm-pack test --headless --firefox
+cd site
+npm run wasm:build
 ```
 
-### 🎁 Publish to NPM with `wasm-pack publish`
+### 🔬 Test in Headless Browsers with `npm run wasm:test`
 
 ```
-wasm-pack publish
+cd site
+npm run wasm:test
 ```
 
-## 🔋 Batteries Included
+### 🎁 Publish to NPM with `wasm:publish`
 
-* [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) for communicating
-  between WebAssembly and JavaScript.
-* [`console_error_panic_hook`](https://github.com/rustwasm/console_error_panic_hook)
-  for logging panic messages to the developer console.
-* [`wee_alloc`](https://github.com/rustwasm/wee_alloc), an allocator optimized
-  for small code size.
+```
+cd site
+npm run wasm:publish
+```
