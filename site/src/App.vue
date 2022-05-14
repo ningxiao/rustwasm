@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
-import init, { draw_julia, async_run_fetch, greet, add } from "../../pkg/rustWasmTest";
+import init, { draw_julia, async_run_fetch, greet, add } from "../pkg/rustWasmTest";
 export default defineComponent(
     {
         setup() {
@@ -21,7 +21,7 @@ export default defineComponent(
                 canvas.height = canvas.offsetHeight * ratio;
                 ctx.scale(ratio, ratio);
                 ctx.font = "18px serif";
-                ctx.fillText(`Rust 创建cavas对象，调用add计算 ${add(21, 34)}`, 10, 50);
+                ctx.fillText(`Rust操作cavas对象，调用add计算 ${add(21, 34)}`, 10, 50);
                 setTimeout(() => {
                     draw_julia(ctx, canvas.width, canvas.height, -0.15, 0.65);
                 }, 1000);

@@ -172,8 +172,8 @@ pub fn greet(name: &str) {
     for i in 1..=5 {
         console_log!("{}", i);
     }
-    let x = "中👨🏻🐱";
-    console_log!("字符'中👨🏻🐱'占用了{}字节的内存大小", size_of_val(&x));
+    let x = "中👨🏻🐱🐴为什么";
+    console_log!("字符'中👨🏻🐱🐴为什么'占用了{}字节的内存大小", size_of_val(&x));
     console_log!("add_with_extra{}", add_with_extra(12, 34));
     for c in "中国人".chars() {
         console_log!("{}", c);
