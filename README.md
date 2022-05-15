@@ -21,14 +21,20 @@
 
 [**📚 目录结构! 📚**]
 
-![Screenshot](./src/assets/WX20220513-155204%402x.png)
+```
+cd site
+pnpm install
+tree -d -I '*node_module*' -L 3
+```
+![Screenshot](./src/assets/WX20220515-184100@2x.png)
 
 ### 🚴 Start
 
 ```
 cd site
-npm run start
+npm run dev
 ```
+![Screenshot](./src/assets/WX20220515-184339@2x.png)
 ![Screenshot](./src/assets/WX20220513-160140@2x.png)
 
 ### 🛠️ Build with `npm run wasm:build`
@@ -37,7 +43,7 @@ npm run start
 cd site
 npm run wasm:build
 ```
-
+![Screenshot](./src/assets/WX20220515-184526@2x.png)
 ### 🔬 Test in Headless Browsers with `npm run wasm:test`
 
 ```
