@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
-import init, { draw_julia, async_run_fetch, greet, add } from "../pkg/rustWasmTest";
+import init, { draw_julia, async_run_fetch, greet, add, call_weibo } from "../pkg/rustWasmTest";
 export default defineComponent(
     {
         setup() {
@@ -29,7 +29,7 @@ export default defineComponent(
             }
 
             const run_rust_async_fetch = () => {
-                async_run_fetch("ningxiao/demo").then((data) => {
+                async_run_fetch("ningxiao/rustwasm").then((data) => {
                     console.log(data);
                     console.log("The latest commit to the demo %s branch is:", data.name);
                     console.log("%s, authored by %s <%s>", data.commit.sha, data.commit.commit.author.name, data.commit.commit.author.email);
@@ -46,6 +46,7 @@ export default defineComponent(
                 darwText(this.canvasElement);
             }
             run_rust_async_fetch();
+            call_weibo();
         }
     }
 )

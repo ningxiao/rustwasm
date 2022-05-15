@@ -155,7 +155,54 @@ fn add_with_extra(x: i32, y: i32) -> i32 {
 pub fn add(a: u32, b: u32) -> u32 {
     a + b
 }
+enum Direction {
+    East(u8),
+    West(u8),
+    North(u8),
+    South(u8),
+}
+//
+/**
+ * Rust 的对象定义和方法定义是分离的
+ * 该例子定义了一个 Rectangle 结构体，并且在其上定义了一个 area 方法，用于计算该矩形的面积。
+ * impl Rectangle {} 表示为 Rectangle 实现方法(impl 是实现 implementation 的缩写)，这样的写法表明 impl 语句块中的一切都是跟 Rectangle 相关联的。
+ */
+pub struct Rectangle {
+    width: u32,
+    height: u32,
+}
+impl Rectangle {
+    pub fn new(width: u32, height: u32) -> Self {
+        Rectangle { width, height }
+    }
+    pub fn width(&self) -> bool {
+        return self.width > 0;
+    }
+}
+impl Rectangle {
+    fn area(&self) -> u32 {
+        return self.width * self.height; //表达式属于返回值
+    }
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        return self.width > other.width && self.height > other.height;
+    }
+}
+/**
+ * T,U 是定义在结构体 Point 上的泛型参数，V,W 是单独定义在方法 mixup 上的泛型参数，它们并不冲突，说白了，你可以理解为，一个是结构体泛型，一个是函数泛型。
+ */
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
 
+impl<T, U> Point<T, U> {
+    fn mixup<V, W>(self, other: Point<V, W>) -> Point<T, W> {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
 #[wasm_bindgen]
 pub fn greet(name: &str) {
     log(&format!("Hello, {}!", name));
@@ -173,18 +220,99 @@ pub fn greet(name: &str) {
         console_log!("{}", i);
     }
     let x = "中👨🏻🐱🐴为什么";
-    console_log!("字符'中👨🏻🐱🐴为什么'占用了{}字节的内存大小", size_of_val(&x));
+    console_log!(
+        "字符'中👨🏻🐱🐴为什么'占用了{}字节的内存大小",
+        size_of_val(&x)
+    );
     console_log!("add_with_extra{}", add_with_extra(12, 34));
     for c in "中国人".chars() {
         console_log!("{}", c);
     }
-    for s in "中国人".bytes() {
-        console_log!("{}", s);
+    let list: [i32; 5] = [1, 2, 3, 4, 5];
+    for s in &list {
+        console_log!("{}", &s);
+    }
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+    console_log!("ifcondition {}", &number);
+    // 枚举判断
+    let dire = [
+        Direction::South(5),
+        Direction::North(5),
+        Direction::East(2),
+        Direction::West(5),
+    ];
+    match dire[3] {
+        // Direction::West(5) 不存在
+        Direction::East(2) => console_log!("East"),
+        Direction::North(3) | Direction::South(5) => {
+            console_log!("South or North");
+        }
+        _ => console_log!("West"),
+    };
+    let rect = Rectangle::new(30, 50);
+    let rect2 = Rectangle {
+        width: 10,
+        height: 40,
+    };
+    console_log!(
+        "The area of the rectangle is {} square pixels.",
+        rect.area()
+    );
+    if rect.width() {
+        console_log!("The rectangle has a nonzero width; it is {}", rect.width);
+    }
+    console_log!("Can rect1 hold rect2? {}", rect.can_hold(&rect2));
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c'};
+    let p3 = p1.mixup(p2);
+    console_log!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+}
+/**
+ * 因为特征只定义行为看起来是什么样的，因此我们需要为类型实现具体的特征，定义行为具体是怎么样的。特征很类似接口
+ */
+pub trait Summary {
+    // fn summarize(&self) -> String;
+    // 你可以在特征中定义具有默认实现的方法，这样其它类型无需再实现该方法，或者也可以选择重载该方法：
+    fn summarize_author(&self) -> String;
+    fn summarize(&self) -> String {
+        format!("(Read more from {}...)", self.summarize_author())
+    }
+}
+pub struct Post {
+    pub title: String, // 标题
+    pub author: String, // 作者
+    pub content: String, // 内容
+}
+impl Summary for Post {
+    // 只实现 summarize_author 
+    fn summarize_author(&self) -> String {
+        format!("文章{}, 作者是{}", self.title, self.author)
+    }
+}
+pub struct Weibo {
+    pub username: String,
+    pub content: String
+}
+impl Summary for Weibo {
+    // 从写类似接口方法
+    fn summarize_author(&self) -> String {
+        format!("@{}", self.username)
+    }
+    fn summarize(&self) -> String {
+        format!("{}发表了微博{}", self.username, self.content)
     }
 }
 #[wasm_bindgen]
+pub fn call_weibo(){
+    let post = Post{title: "Rust语言简介".to_string(),author: "Sunface".to_string(), content: "Rust棒极了!".to_string()};
+    let weibo = Weibo{username: "sunface".to_string(),content: "好像微博没Tweet好用".to_string()};
+    console_log!("{}",post.summarize());
+    console_log!("{}",weibo.summarize());
+}
+#[wasm_bindgen]
 pub async fn async_run_fetch(repo: String) -> Result<JsValue, JsValue> {
-    let window = web_sys::window().unwrap();
+    let window = window().unwrap();
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
