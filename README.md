@@ -1,8 +1,8 @@
 <div align="center">
 
-  <h1><code>rust-wasm-webpack-demo</code></h1>
+  <h1><code>rust-wasm-vite-demo</code></h1>
 
-  <strong>Rust转为WebAssembly（<a href="https://github.com/rustwasm/wasm-pack">wasm-pack</a>）结合Webpack构建</strong>
+  <strong>Rust转为WebAssembly（<a href="https://github.com/rustwasm/wasm-pack">wasm-pack</a>）结合Vite构建</strong>
 
   <p>
     <a href="https://travis-ci.org/rustwasm/wasm-pack-template"><img src="https://img.shields.io/travis/rustwasm/wasm-pack-template.svg?style=flat-square" alt="Build Status" /></a>
