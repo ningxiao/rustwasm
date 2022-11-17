@@ -312,7 +312,6 @@ pub fn call_weibo(){
 }
 #[wasm_bindgen]
 pub async fn async_run_fetch(repo: String) -> Result<JsValue, JsValue> {
-    let window = window().unwrap();
     let mut opts = RequestInit::new();
     opts.method("GET");
     opts.mode(RequestMode::Cors);
@@ -321,16 +320,16 @@ pub async fn async_run_fetch(repo: String) -> Result<JsValue, JsValue> {
     request
         .headers()
         .set("Accept", "application/vnd.github.v3+json")?;
+    let window = web_sys::window().unwrap();
     let resp_value = JsFuture::from(window.fetch_with_request(&request)).await?;
-    // `resp_value` 是一个 `Response` 对象。
+    // `resp_value` is a `Response` object.
     assert!(resp_value.is_instance_of::<Response>());
     let resp: Response = resp_value.dyn_into().unwrap();
-    // 将这另一个 `Promise` 转换成 rust `Future`。
+    // Convert this other `Promise` into a rust `Future`.
     let json = JsFuture::from(resp.json()?).await?;
-    // 使用 serde 将 JSON 解析为结构。
-    let branch_info: Branch = json.into_serde().unwrap();
-    // 将 `Branch` 结构体作为 `Object` 发送回 JS。
-    Ok(JsValue::from_serde(&branch_info).unwrap())
+    // Send the JSON response back to JS.
+    utils::set_panic_hook();
+    Ok(json)
 }
 #[wasm_bindgen]
 pub fn draw_julia(
@@ -370,5 +369,6 @@ pub fn run() -> Result<(), JsValue> {
 
     console_log!("request started at {}", humantime::format_rfc3339(start));
     console_log!("request ended at {}", humantime::format_rfc3339(end));
+    
     Ok(())
 }
