@@ -50,7 +50,8 @@ npm run wasm:build
 cd site
 npm run wasm:test
 ```
-
+![Screenshot](./src/assets/WX20221117-095604@2x.png)
+![Screenshot](./src/assets/WX20221117-095620@2x.png)
 ### 🎁 Publish to NPM with `wasm:publish`
 
 ```
